@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>小目标</title>
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <link rel="stylesheet" href="styles/ionic.min.css">
+    <link rel="stylesheet" href="favion/ux_1476698216_2528563/iconfont.css">
+    <link rel="stylesheet" href="favion/ux_1476698216_2528563/icon.css">
+    <script src="scripts/ionic.bundle.min.js"></script>
+    <script src="scripts/tgs.js"></script>
+</head>
+
+<body ng-app="todo" ng-controller="TodoTask">
+    <ion-side-menus>
+        <ion-side-menu-content>
+            <ion-header-bar class="bar-dark">
+                <button class="button button-icon" ng-click="newTask()">
+                    <i class="icon1 iconfont">&#xe61d;</i>
+                </button>
+                <h1 class="title family">小目标</h1>
+                <button class="button button-clear button-icon" ng-click="deleteAllTask()">
+                    <i class="icon1 iconfont">&#xe623;</i>
+                </button>
+            </ion-header-bar>
+            <ion-content>
+                <ion-list>
+                    <ion-item id="item" ng-repeat="task in tasks | filter:query">
+                        <div ng-hide="task.editing" on-double-tap="concenter()">
+                            <input type="checkbox" ng-model="task.done" class="box" ng-click="change(task)">
+                            <span class="family">{{task.content}}</span>
+                            <button class="button button-clear button-small button-dark item-right " ng-click="deleteTask(task)">
+                                <i class="icon1 iconfont ">&#xe67f;</i>
+                            </button>
+                        </div>
+                    </ion-item>
+                </ion-list>
+            </ion-content>
+            <ion-footer-bar align-title="center">
+                <button class="button button-clear button-dark" ng-click="query=true">
+                   <span class="family">已完成</span>
+                </button>
+                <span class="title">
+                <button class="button button-clear button-dark" ng-click="query=''">
+                   <span class="family">全部</span>
+                </button>
+                </span>
+                <button class="button button-clear button-dark" ng-click="query=false">
+                   <span class="family">未完成</span>
+                </button>
+            </ion-footer-bar>
+        </ion-side-menu-content>
+    </ion-side-menus>
+    <!--  新增页面 -->
+    <script id="new-task.html" type="text/ng-template">
+        <div class="modal">
+            <!-- Modal header bar -->
+            <ion-header-bar class="bar-secondary">
+                <h1 class="title family">新目标</h1>
+                <button class="button button-clear button-dark" ng-click="closeNewTask()">
+                   <span class="family">取消</span>
+                </button>
+            </ion-header-bar>
+            <!-- Modal content area -->
+            <ion-content>
+                <form ng-submit="createTask(task)">
+                    <div class="list">
+                        <label class="item item-input">
+                            <input type="text" placeholder="请写下您的小目标" ng-model="task.content">
+                        </label>
+                    </div>
+                    <div class="padding">
+                        <button type="submit" class="button button-block button-dark">
+                          <span class="family">添加目标</span>
+                        </button>
+                    </div>
+                </form>
+            </ion-content>
+        </div>
+    </script>
+    <script id="concenter.html" type="text/ng-template">
+        <div class="modal">
+            <!-- Modal header bar -->
+            <ion-header-bar class="bar-dark">
+                <button id="ifWork" class="button button-ion button-clear" ng-click="closeConcenter()">
+                    <i class="icon1 iconfont">&#xe62f;</i>
+                </button>
+                <h1 class="title family">专注模式</h1>
+            </ion-header-bar>
+            <!-- Modal content area -->
+            <ion-content class="color">
+                <div class="concenter">
+                    <p ng-if="ifShow">0:0</p>
+                    <p>{{countdown}}</p>
+                </div>
+            </ion-content>
+            <ion-footer-bar>
+                <button class="button button-clear button-dark" ng-click="timeDown(300)">
+                  <span class="family">5分钟</span>
+                </button>
+                <span class="title">
+                <button class="button button-clear button-dark" ng-click="timeDown(1800)">
+                  <span class="family">30分钟</span>
+                </button>
+                </span>
+                <button class="button button-clear button-dark" ng-click="timeDown(3600)">
+                  <span class="family">60分钟</span>
+                </button>
+            </ion-footer-bar>
+        </div>
+    </script>
+</body>
+
+</html>
